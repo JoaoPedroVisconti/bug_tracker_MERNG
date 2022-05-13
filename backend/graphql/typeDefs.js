@@ -24,6 +24,11 @@ module.exports = gql`
     email: String!
   }
 
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
   type Query {
     getBugs: [Bugs]
   }
@@ -32,5 +37,6 @@ module.exports = gql`
     # Have all the logic (functions) to the database
     # input a type RegisterInput and return a type User
     registerUser(registerInput: RegisterInput): Users!
+    loginUser(loginInput: LoginInput): Users!
   }
 `
