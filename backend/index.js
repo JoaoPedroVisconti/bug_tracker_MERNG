@@ -3,15 +3,33 @@ const gql = require('graphql-tag')
 const mongoose = require('mongoose')
 const { MONGODB } = require('./config.js')
 
+const Bugs = require('./models/BugModel')
+
 const typeDefs = gql`
+  type Bugs {
+    id: ID!
+    title: String!
+    body: String!
+    createdAt: String!
+    username: String!
+  }
+
   type Query {
-    sayHi: String!
+    getBugs: [Bugs]
   }
 `
 
 const resolvers = {
   Query: {
-    sayHi: () => 'Hello, world',
+    async getBugs() {
+      try {
+        const bugs = await Bugs.find()
+
+        return bugs
+      } catch (err) {
+        throw new Error(err)
+      }
+    },
   },
 }
 
