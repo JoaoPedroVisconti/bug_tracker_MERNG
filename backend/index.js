@@ -5,33 +5,8 @@ const { MONGODB } = require('./config.js')
 
 const Bugs = require('./models/BugModel')
 
-const typeDefs = gql`
-  type Bugs {
-    id: ID!
-    title: String!
-    body: String!
-    createdAt: String!
-    username: String!
-  }
-
-  type Query {
-    getBugs: [Bugs]
-  }
-`
-
-const resolvers = {
-  Query: {
-    async getBugs() {
-      try {
-        const bugs = await Bugs.find()
-
-        return bugs
-      } catch (err) {
-        throw new Error(err)
-      }
-    },
-  },
-}
+const typeDefs = require('./typeDefs')
+const resolvers = require('./resolvers/indexResolvers')
 
 const server = new ApolloServer({
   typeDefs,
