@@ -1,4 +1,4 @@
-const Bugs = require('../models/BugModel')
+const Bugs = require('../../models/BugModel')
 
 module.exports = {
   Query: {
