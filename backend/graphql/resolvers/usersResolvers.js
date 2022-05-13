@@ -3,6 +3,7 @@ const User = require('../../models/UserModel')
 const { SECRET_KEY } = require('../../config')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { UserInputError } = require('apollo-server')
 
 module.exports = {
   // Mutation: {
@@ -14,13 +15,27 @@ module.exports = {
   Mutation: {
     async registerUser(
       _,
-      { registerInput: { username, email, password, confirmPassword } },
-      context,
-      info
+      { registerInput: { username, email, password, confirmPassword } }
     ) {
       //todo: validate user data
       //todo: make sure username doesn't already exist
-      //todo: hash the password and create an authentication token
+
+      const usernameCheck = await User.findOne({ username: username })
+      if (usernameCheck) {
+        throw new UserInputError('Username is taken', {
+          errors: {
+            username: 'This username is taken',
+          },
+        })
+      }
+      const emailCheck = await User.findOne({ email: email })
+      if (emailCheck) {
+        throw new UserInputError('email is taken', {
+          errors: {
+            email: 'This email is taken',
+          },
+        })
+      }
 
       password = await bcrypt.hash(password, 12)
 
