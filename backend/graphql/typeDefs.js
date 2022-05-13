@@ -29,8 +29,14 @@ module.exports = gql`
     password: String!
   }
 
+  input BugInput {
+    title: String!
+    body: String!
+  }
+
   type Query {
     getBugs: [Bugs]
+    getBug(bugId: ID!): Bugs
   }
 
   type Mutation {
@@ -38,5 +44,7 @@ module.exports = gql`
     # input a type RegisterInput and return a type User
     registerUser(registerInput: RegisterInput): Users!
     loginUser(loginInput: LoginInput): Users!
+    createBug(bugInput: BugInput): Bugs!
+    deleteBug(bugId: ID!): String!
   }
 `

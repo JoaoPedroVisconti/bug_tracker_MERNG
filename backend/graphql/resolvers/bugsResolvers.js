@@ -11,5 +11,19 @@ module.exports = {
         throw new Error(err)
       }
     },
+
+    async getBug(_, { bugId }) {
+      try {
+        const bug = await Bugs.findById(bugId)
+
+        if (bug) {
+          return bug
+        } else {
+          throw new Error('Bug not found')
+        }
+      } catch (err) {
+        throw new Error('Something went wrong')
+      }
+    },
   },
 }
