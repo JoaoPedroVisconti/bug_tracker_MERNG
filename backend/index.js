@@ -8,6 +8,10 @@ const resolvers = require('./graphql/resolvers/indexResolvers')
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({ req }),
+  // Taken the request body
+  // and forward in the context
+  // to be access in the postsResolvers
 })
 
 mongoose
