@@ -11,6 +11,24 @@ const bugsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users',
   },
+
+  participants: [
+    {
+      participantId: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+      username: String,
+    },
+  ],
+
+  comments: [
+    {
+      body: String,
+      username: String,
+      createdAt: String,
+    },
+  ],
 })
 
 module.exports = model('Bugs', bugsSchema)
