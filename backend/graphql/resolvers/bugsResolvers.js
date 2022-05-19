@@ -1,11 +1,13 @@
 const Bugs = require('../../models/BugModel')
 const checkAuth = require('../../util/check-auth')
 
+const { AuthenticationError } = require('apollo-server')
+
 module.exports = {
   Query: {
     async getBugs() {
       try {
-        const bugs = await Bugs.find()
+        const bugs = await Bugs.find().sort({ createdAt: -1 })
 
         return bugs
       } catch (err) {
@@ -47,6 +49,24 @@ module.exports = {
       const bug = await newBug.save()
 
       return bug
+    },
+
+    // Delete Bug
+    async deleteBug(_, { bugId }, context) {
+      const user = checkAuth(context)
+
+      try {
+        const bug = await Bugs.findById(bugId)
+
+        if (user.username === bug.username) {
+          await bug.delete()
+          return 'Bug deleted'
+        } else {
+          throw new AuthenticationError('Action not allowed')
+        }
+      } catch (err) {
+        throw new Error(err)
+      }
     },
   },
 }
