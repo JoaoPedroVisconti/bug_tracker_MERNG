@@ -39,9 +39,9 @@ module.exports = {
       const newBug = new Bugs({
         title,
         body,
-        user: user.id,
-        username: user.username,
         createdAt: new Date().toISOString(),
+        userId: user.id,
+        username: user.username,
       })
 
       const bug = await newBug.save()

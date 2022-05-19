@@ -7,7 +7,7 @@ const bugsSchema = new Schema({
   createdAt: String,
 
   // Connect to another model. Link the Bugs to a specific User
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'users',
   },
